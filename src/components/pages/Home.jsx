@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import ProductGrid from "@/components/organisms/ProductGrid";
+import ProductCarousel from "@/components/molecules/ProductCarousel";
 import CategoryCard from "@/components/molecules/CategoryCard";
 import ProductCard from "@/components/molecules/ProductCard";
 import Button from "@/components/atoms/Button";
@@ -15,8 +16,33 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   const [dealsProducts, setDealsProducts] = useState([]);
   const [newProducts, setNewProducts] = useState([]);
+  const [dealOfTheDay, setDealOfTheDay] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [timeLeft, setTimeLeft] = useState({
+    hours: 23,
+    minutes: 59,
+    seconds: 59
+  });
+
+// Countdown timer effect
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev.seconds > 0) {
+          return { ...prev, seconds: prev.seconds - 1 };
+        } else if (prev.minutes > 0) {
+          return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
+        } else if (prev.hours > 0) {
+          return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
+        } else {
+          return { hours: 23, minutes: 59, seconds: 59 };
+        }
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const loadData = async () => {
     try {
@@ -30,10 +56,21 @@ const Home = () => {
         productService.getNewArrivals(),
       ]);
 
-      setFeaturedProducts(featured.slice(0, 8));
+      setFeaturedProducts(featured.slice(0, 12));
       setCategories(categoriesData.filter(cat => cat.featured));
-      setDealsProducts(deals.slice(0, 4));
+      setDealsProducts(deals.slice(0, 8));
       setNewProducts(newArrivals.slice(0, 4));
+      
+      // Set deal of the day (highest discount product)
+      const bestDeal = deals.reduce((best, current) => {
+        const currentDiscount = current.originalPrice ? 
+          ((current.originalPrice - current.price) / current.originalPrice) * 100 : 0;
+        const bestDiscount = best.originalPrice ? 
+          ((best.originalPrice - best.price) / best.originalPrice) * 100 : 0;
+        return currentDiscount > bestDiscount ? current : best;
+      }, deals[0]);
+      
+      setDealOfTheDay(bestDeal);
     } catch (err) {
       setError('Failed to load homepage data. Please try again.');
     } finally {
@@ -136,7 +173,83 @@ const Home = () => {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Deal of the Day */}
+        {dealOfTheDay && (
+          <section className="py-16">
+            <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-8 text-white relative overflow-hidden">
+              <div className="absolute -top-16 -right-16 w-32 h-32 bg-white/10 rounded-full"></div>
+              <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-white/5 rounded-full"></div>
+              
+              <div className="relative z-10">
+                <div className="text-center mb-8">
+                  <h2 className="text-4xl font-bold mb-2">🔥 Deal of the Day</h2>
+                  <p className="text-xl opacity-90">Limited time offer - Don't miss out!</p>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                  <div className="text-center lg:text-left">
+                    <h3 className="text-2xl font-bold mb-4 line-clamp-2">
+                      {dealOfTheDay.title}
+                    </h3>
+                    
+                    <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
+                      <span className="text-4xl font-bold">
+                        ${dealOfTheDay.price}
+                      </span>
+                      {dealOfTheDay.originalPrice && (
+                        <div className="text-center">
+                          <span className="text-xl line-through opacity-75 block">
+                            ${dealOfTheDay.originalPrice}
+                          </span>
+                          <span className="text-sm bg-white/20 px-2 py-1 rounded">
+                            Save ${(dealOfTheDay.originalPrice - dealOfTheDay.price).toFixed(2)}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="mb-6">
+                      <p className="text-lg mb-2">⏰ Offer ends in:</p>
+                      <div className="flex justify-center lg:justify-start gap-4">
+                        <div className="bg-white/20 rounded-lg p-3 text-center">
+                          <div className="text-2xl font-bold">{timeLeft.hours.toString().padStart(2, '0')}</div>
+                          <div className="text-sm opacity-75">Hours</div>
+                        </div>
+                        <div className="bg-white/20 rounded-lg p-3 text-center">
+                          <div className="text-2xl font-bold">{timeLeft.minutes.toString().padStart(2, '0')}</div>
+                          <div className="text-sm opacity-75">Minutes</div>
+                        </div>
+                        <div className="bg-white/20 rounded-lg p-3 text-center">
+                          <div className="text-2xl font-bold">{timeLeft.seconds.toString().padStart(2, '0')}</div>
+                          <div className="text-sm opacity-75">Seconds</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <Link to={`/product/${dealOfTheDay.Id}`}>
+                      <Button size="lg" className="bg-white text-primary hover:bg-gray-100 font-semibold">
+                        Shop Now - Limited Stock!
+                        <ApperIcon name="ArrowRight" size={20} className="ml-2" />
+                      </Button>
+                    </Link>
+                  </div>
+
+                  <div className="relative">
+                    <div className="bg-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                      <img
+                        src={dealOfTheDay.images[0]}
+                        alt={dealOfTheDay.title}
+                        className="w-full h-64 object-cover rounded-lg shadow-lg"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Categories Section */}
         <section className="py-16">
           <div className="text-center mb-12">
@@ -162,22 +275,24 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Featured Products */}
+{/* Featured Products Carousel */}
         <section className="py-16 bg-white rounded-lg shadow-sm">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Featured Products
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Handpicked products that our customers love most
-            </p>
-          </div>
-          
           <div className="px-6">
-            <ProductGrid products={featuredProducts} />
+            <ProductCarousel 
+              products={featuredProducts}
+              title="Featured Products"
+              showDots={true}
+              showArrows={true}
+              autoPlay={true}
+              autoPlayInterval={6000}
+              itemsPerView={{ mobile: 1, tablet: 2, desktop: 4 }}
+            />
           </div>
           
           <div className="text-center mt-8">
+            <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+              Handpicked products that our customers love most
+            </p>
             <Link to="/category/electronics">
               <Button size="lg" variant="outline">
                 View All Products
@@ -187,56 +302,21 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Special Deals */}
+{/* Special Deals Carousel */}
         <section className="py-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Special Deals
-            </h2>
+          <ProductCarousel 
+            products={dealsProducts}
+            title="🏷️ Special Deals"
+            showDots={true}
+            showArrows={true}
+            autoPlay={false}
+            itemsPerView={{ mobile: 1, tablet: 2, desktop: 3 }}
+          />
+          
+          <div className="text-center mt-8">
             <p className="text-gray-600 max-w-2xl mx-auto">
               Don't miss out on these limited-time offers
             </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {dealsProducts.map((product, index) => (
-              <motion.div
-                key={product.Id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-gradient-to-br from-primary to-accent p-6 rounded-lg text-white relative overflow-hidden"
-              >
-                <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/20 rounded-full"></div>
-                <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-white/10 rounded-full"></div>
-                
-                <div className="relative z-10">
-                  <img
-                    src={product.images[0]}
-                    alt={product.title}
-                    className="w-full h-32 object-cover rounded-md mb-4"
-                  />
-                  <h3 className="font-semibold mb-2 line-clamp-2">
-                    {product.title}
-                  </h3>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-2xl font-bold">${product.price}</p>
-                      {product.originalPrice && (
-                        <p className="text-sm line-through opacity-75">
-                          ${product.originalPrice}
-                        </p>
-                      )}
-                    </div>
-                    <Link to={`/product/${product.Id}`}>
-                      <Button size="sm" className="bg-white text-primary hover:bg-gray-100">
-                        Shop Now
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
           </div>
         </section>
 
