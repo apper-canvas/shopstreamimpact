@@ -35,12 +35,12 @@
     "productCount": 178,
     "featured": true
   },
-  {
+{
     "Id": 5,
     "name": "Beauty & Personal Care",
     "slug": "beauty-personal-care",
     "description": "Beauty products and personal care items",
-    "image": "https://images.unsplash.com/photo-1556228578-dd6cf4e1a6d9?w=300&h=200&fit=crop",
+    "image": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300&h=200&fit=crop",
     "productCount": 92,
     "featured": true
   },
