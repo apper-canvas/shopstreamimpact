@@ -1,0 +1,285 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'react-toastify/dist/ReactToastify.css';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #F8F9FA;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Toast Customization */
+.Toastify__toast-container {
+  z-index: 9999;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 320px;
+}
+
+.Toastify__toast {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  padding: 16px;
+  margin-bottom: 8px;
+}
+
+.Toastify__toast--success {
+  border-left: 4px solid #28A745;
+}
+
+.Toastify__toast--error {
+  border-left: 4px solid #DC3545;
+}
+
+.Toastify__toast--warning {
+  border-left: 4px solid #FFC107;
+}
+
+.Toastify__toast--info {
+  border-left: 4px solid #17A2B8;
+}
+
+/* Shimmer Effect */
+.shimmer {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* Responsive Images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Focus styles */
+.focus\:ring-primary:focus {
+  --tw-ring-color: #FF6B35;
+}
+
+.focus\:ring-secondary:focus {
+  --tw-ring-color: #004E89;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #FF6B35, #F7931E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Custom Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+  }
+}
+
+/* Backdrop blur support */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-md {
+  backdrop-filter: blur(8px);
+}
+
+/* Enhanced hover effects */
+.hover-scale {
+  transition: transform 0.2s ease-out;
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/* Button animations */
+.btn-bounce {
+  animation: bounce 0.3s ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+/* Cart icon bounce */
+.cart-bounce {
+  animation: bounce-cart 0.3s ease-in-out;
+}
+
+@keyframes bounce-cart {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Mobile menu animation */
+@media (max-width: 768px) {
+  .mobile-menu-enter {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  
+  .mobile-menu-enter-active {
+    transform: translateX(0);
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .mobile-menu-exit {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  
+  .mobile-menu-exit-active {
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+  }
+}
+
+/* Price formatting */
+.price {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.025em;
+}
+
+/* Star ratings */
+.star-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.star {
+  color: #FFC107;
+  font-size: 16px;
+}
+
+.star.empty {
+  color: #E5E7EB;
+}
+
+/* Loading states */
+.loading-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Enhanced shadows */
+.shadow-product {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-product:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.shadow-header {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Gradient buttons */
+.btn-gradient {
+  background: linear-gradient(135deg, #FF6B35, #F7931E);
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(135deg, #E55A2B, #E8841A);
+}
+
+/* Category pills */
+.category-pill {
+  background: #004E89;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.category-pill:hover {
+  background: #003A6B;
+  transform: translateY(-1px);
+}
+
+/* Trust badges */
+.trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(40, 167, 69, 0.1);
+  border-radius: 6px;
+  font-size: 12px;
+  color: #28A745;
+}
+
+/* Responsive typography */
+@media (max-width: 640px) {
+  .text-responsive-lg {
+    font-size: 1.5rem;
+  }
+  
+  .text-responsive-xl {
+    font-size: 1.75rem;
+  }
+}
+
+@media (min-width: 641px) {
+  .text-responsive-lg {
+    font-size: 1.875rem;
+  }
+  
+  .text-responsive-xl {
+    font-size: 2.25rem;
+  }
+}

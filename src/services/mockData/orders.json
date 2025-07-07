@@ -1,0 +1,102 @@
+[
+  {
+    "Id": 1,
+    "items": [
+      {
+        "productId": 1,
+        "title": "Wireless Bluetooth Headphones",
+        "price": 89.99,
+        "quantity": 1,
+        "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop"
+      },
+      {
+        "productId": 3,
+        "title": "Premium Coffee Maker",
+        "price": 149.99,
+        "quantity": 1,
+        "image": "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=500&h=500&fit=crop"
+      }
+    ],
+    "total": 239.98,
+    "shipping": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "address": "123 Main St",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001",
+      "country": "USA"
+    },
+    "payment": {
+      "method": "credit_card",
+      "last4": "1234"
+    },
+    "status": "delivered",
+    "createdAt": "2024-01-15T10:30:00Z",
+    "deliveredAt": "2024-01-18T14:20:00Z"
+  },
+  {
+    "Id": 2,
+    "items": [
+      {
+        "productId": 2,
+        "title": "Smart Fitness Watch",
+        "price": 199.99,
+        "quantity": 1,
+        "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop"
+      }
+    ],
+    "total": 199.99,
+    "shipping": {
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "address": "456 Oak Ave",
+      "city": "Los Angeles",
+      "state": "CA",
+      "zipCode": "90210",
+      "country": "USA"
+    },
+    "payment": {
+      "method": "paypal",
+      "last4": null
+    },
+    "status": "shipped",
+    "createdAt": "2024-01-20T15:45:00Z",
+    "shippedAt": "2024-01-22T09:30:00Z"
+  },
+  {
+    "Id": 3,
+    "items": [
+      {
+        "productId": 4,
+        "title": "Organic Cotton T-Shirt",
+        "price": 24.99,
+        "quantity": 3,
+        "image": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&h=500&fit=crop"
+      },
+      {
+        "productId": 8,
+        "title": "Running Shoes",
+        "price": 79.99,
+        "quantity": 1,
+        "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&h=500&fit=crop"
+      }
+    ],
+    "total": 154.96,
+    "shipping": {
+      "firstName": "Mike",
+      "lastName": "Johnson",
+      "address": "789 Pine St",
+      "city": "Chicago",
+      "state": "IL",
+      "zipCode": "60601",
+      "country": "USA"
+    },
+    "payment": {
+      "method": "credit_card",
+      "last4": "5678"
+    },
+    "status": "processing",
+    "createdAt": "2024-01-25T11:20:00Z"
+  }
+]
