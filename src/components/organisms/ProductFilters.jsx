@@ -190,15 +190,15 @@ const handlePriceChange = (type, value) => {
                 checked={filters.inStock || false}
                 onChange={(e) => handleFilterChange('inStock', e.target.checked)}
                 className="mr-2"
-              />
+/>
               <span className="text-sm">In Stock Only</span>
-<span className="text-sm">In Stock Only</span>
             </label>
           </div>
         </FilterSection>
 
         {/* Brand Filter */}
         {brands.length > 0 && (
+          <FilterSection
             title="Brand"
             isOpen={openSections.brand}
             onToggle={() => toggleSection('brand')}
@@ -307,9 +307,10 @@ const handlePriceChange = (type, value) => {
             <option value="price-low">Price: Low to High</option>
             <option value="price-high">Price: High to Low</option>
             <option value="rating">Customer Rating</option>
-            <option value="newest">Newest Arrivals</option>
+<option value="newest">Newest Arrivals</option>
           </Select>
         </div>
+      </div>
     </>
   );
 };

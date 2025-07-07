@@ -107,16 +107,16 @@ filterProducts: async (filters) => {
     return { ...products[index] };
   },
 
-  delete: async (id) => {
+delete: async (id) => {
     await delay(300);
     const index = products.findIndex(p => p.Id === parseInt(id));
     if (index === -1) {
       throw new Error('Product not found');
-throw new Error('Product not found');
     }
     products.splice(index, 1);
     return { success: true };
   },
+};
 
 // Helper function to apply filters
 const applyFilters = (productList, filters) => {
@@ -180,9 +180,8 @@ const applyFilters = (productList, filters) => {
       case 'newest':
         filteredProducts.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
         break;
-      default:
+default:
         break;
-break;
     }
   }
 
