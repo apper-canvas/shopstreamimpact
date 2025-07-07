@@ -179,87 +179,88 @@ const Home = () => {
       </section>
 
       {/* Deal of the Day */}
+{/* Deal of the Day */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <section className="py-16">
-            <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-8 text-white relative overflow-hidden">
-              <div className="absolute -top-16 -right-16 w-32 h-32 bg-white/10 rounded-full"></div>
-              <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-white/5 rounded-full"></div>
-              
-              <div className="relative z-10">
-                <div className="text-center mb-8">
-                  <h2 className="text-4xl font-bold mb-2">🔥 Deal of the Day</h2>
-                  <p className="text-xl opacity-90">Limited time offer - Don't miss out!</p>
-                </div>
+          <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-8 text-white relative overflow-hidden">
+            <div className="absolute -top-16 -right-16 w-32 h-32 bg-white/10 rounded-full"></div>
+            <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-white/5 rounded-full"></div>
+            
+            <div className="relative z-10">
+              <div className="text-center mb-8">
+                <h2 className="text-4xl font-bold mb-2">🔥 Deal of the Day</h2>
+                <p className="text-xl opacity-90">Limited time offer - Don't miss out!</p>
+              </div>
 
-<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                  <div className="text-center lg:text-left">
-                    <h3 className="text-2xl font-bold mb-4 line-clamp-2">
-                      {dealOfTheDay?.title || 'Special Deal'}
-                    </h3>
-                    
-                    <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
-                      <span className="text-4xl font-bold">
-                        ${dealOfTheDay?.price || '0.00'}
-                      </span>
-                      {dealOfTheDay?.originalPrice && (
-                        <div className="flex flex-col items-center">
-                          <span className="text-lg line-through text-white/70">
-                            ${dealOfTheDay.originalPrice}
-                          </span>
-                          <span className="text-sm bg-white/20 px-2 py-1 rounded">
-                            Save ${(dealOfTheDay.originalPrice - dealOfTheDay.price).toFixed(2)}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="mb-6">
-                      <p className="text-lg mb-2">⏰ Offer ends in:</p>
-                      <div className="flex justify-center lg:justify-start gap-4">
-                        <div className="bg-white/20 rounded-lg p-3 text-center">
-                          <div className="text-2xl font-bold">{timeLeft.hours.toString().padStart(2, '0')}</div>
-                          <div className="text-sm opacity-75">Hours</div>
-                        </div>
-                        <div className="bg-white/20 rounded-lg p-3 text-center">
-                          <div className="text-2xl font-bold">{timeLeft.minutes.toString().padStart(2, '0')}</div>
-                          <div className="text-sm opacity-75">Minutes</div>
-</div>
-                        <div className="bg-white/20 rounded-lg p-3 text-center">
-                          <div className="text-2xl font-bold">{timeLeft.seconds.toString().padStart(2, '0')}</div>
-                          <div className="text-sm opacity-75">Seconds</div>
-                        </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div className="text-center lg:text-left">
+                  <h3 className="text-2xl font-bold mb-4 line-clamp-2">
+                    {dealOfTheDay?.title || 'Special Deal'}
+                  </h3>
+                  
+                  <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
+                    <span className="text-4xl font-bold">
+                      ${dealOfTheDay?.price || '0.00'}
+                    </span>
+                    {dealOfTheDay?.originalPrice && (
+                      <div className="flex flex-col items-center">
+                        <span className="text-lg line-through text-white/70">
+                          ${dealOfTheDay.originalPrice}
+                        </span>
+                        <span className="text-sm bg-white/20 px-2 py-1 rounded">
+                          Save ${(dealOfTheDay.originalPrice - dealOfTheDay.price).toFixed(2)}
+                        </span>
                       </div>
-                    </div>
-
-                    <Link to={`/product/${dealOfTheDay?.id || ''}`}>
-                      <Button size="lg" className="bg-white text-primary hover:bg-gray-100 font-semibold">
-                        Shop Now - Limited Stock!
-                        <ApperIcon name="ArrowRight" size={20} className="ml-2" />
-                      </Button>
-                    </Link>
+                    )}
                   </div>
 
-<div className="relative">
-                    <div className="bg-white/10 rounded-2xl p-6 backdrop-blur-sm">
-                      <img
-                        src={dealOfTheDay?.images?.[0] || '/placeholder.jpg'}
-                        alt={dealOfTheDay?.title || 'Deal of the Day'}
-                        className="w-full h-64 object-cover rounded-lg shadow-lg"
-                      />
+                  <div className="mb-6">
+                    <p className="text-lg mb-2">⏰ Offer ends in:</p>
+                    <div className="flex justify-center lg:justify-start gap-4">
+                      <div className="bg-white/20 rounded-lg p-3 text-center">
+                        <div className="text-2xl font-bold">{timeLeft.hours.toString().padStart(2, '0')}</div>
+                        <div className="text-sm opacity-75">Hours</div>
+                      </div>
+                      <div className="bg-white/20 rounded-lg p-3 text-center">
+                        <div className="text-2xl font-bold">{timeLeft.minutes.toString().padStart(2, '0')}</div>
+                        <div className="text-sm opacity-75">Minutes</div>
+                      </div>
+                      <div className="bg-white/20 rounded-lg p-3 text-center">
+                        <div className="text-2xl font-bold">{timeLeft.seconds.toString().padStart(2, '0')}</div>
+                        <div className="text-sm opacity-75">Seconds</div>
+                      </div>
                     </div>
+                  </div>
+
+                  <Link to={`/product/${dealOfTheDay?.id || ''}`}>
+                    <Button size="lg" className="bg-white text-primary hover:bg-gray-100 font-semibold">
+                      Shop Now - Limited Stock!
+                      <ApperIcon name="ArrowRight" size={20} className="ml-2" />
+                    </Button>
+                  </Link>
+                </div>
+
+                <div className="relative">
+                  <div className="bg-white/10 rounded-2xl p-6 backdrop-blur-sm">
+                    <img
+                      src={dealOfTheDay?.images?.[0] || '/placeholder.jpg'}
+                      alt={dealOfTheDay?.title || 'Deal of the Day'}
+                      className="w-full h-64 object-cover rounded-lg shadow-lg"
+                    />
                   </div>
                 </div>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
+      </div>
 
-        {/* Categories Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <section className="py-16">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
-Shop by Category
+      {/* Categories Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Shop by Category
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Explore our wide range of categories to find exactly what you're looking for
@@ -277,13 +278,13 @@ Shop by Category
                 <CategoryCard category={category} />
               </motion.div>
             ))}
-</div>
+          </div>
         </section>
-        </div>
+      </div>
 
-        {/* Featured Products Carousel */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <section className="py-16 bg-white rounded-lg shadow-sm">
+      {/* Featured Products Carousel */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-16 bg-white rounded-lg shadow-sm">
           <div className="px-6">
             <ProductCarousel 
               products={featuredProducts}
@@ -306,13 +307,13 @@ Shop by Category
                 <ApperIcon name="ArrowRight" size={20} className="ml-2" />
               </Button>
             </Link>
-</div>
+          </div>
         </section>
-        </div>
+      </div>
 
-        {/* Special Deals Carousel */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <section className="py-16">
+      {/* Special Deals Carousel */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-16">
           <ProductCarousel 
             products={dealsProducts}
             title="🏷️ Special Deals"
@@ -326,13 +327,13 @@ Shop by Category
             <p className="text-gray-600 max-w-2xl mx-auto">
               Don't miss out on these limited-time offers
             </p>
-</div>
+          </div>
         </section>
-        </div>
+      </div>
 
-        {/* New Arrivals */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <section className="py-16 bg-white rounded-lg shadow-sm">
+      {/* New Arrivals */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-16 bg-white rounded-lg shadow-sm">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               New Arrivals
@@ -341,7 +342,7 @@ Shop by Category
               Check out the latest additions to our collection
             </p>
           </div>
-<div className="px-6">
+          <div className="px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {newProducts && newProducts.map((product, index) => (
                 <motion.div
@@ -364,32 +365,31 @@ Shop by Category
                   </p>
                 </motion.div>
               ))}
-</div>
-          </div>
-        </section>
-        </div>
-
-        {/* Newsletter Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-secondary to-secondary/90 rounded-lg p-8 text-white text-center">
-            <h2 className="text-3xl font-bold mb-4">
-              Stay Updated with Our Newsletter
-            </h2>
-            <p className="text-gray-200 mb-6 max-w-2xl mx-auto">
-              Get the latest deals, product updates, and exclusive offers delivered straight to your inbox.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-2 rounded-md border-0 focus:ring-2 focus:ring-accent focus:outline-none text-gray-900"
-              />
-              <Button className="bg-accent hover:bg-accent/90">
-                Subscribe
-</Button>
             </div>
           </div>
-        </div>
+        </section>
+      </div>
+
+      {/* Newsletter Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-gradient-to-r from-secondary to-secondary/90 rounded-lg p-8 text-white text-center">
+          <h2 className="text-3xl font-bold mb-4">
+            Stay Updated with Our Newsletter
+          </h2>
+          <p className="text-gray-200 mb-6 max-w-2xl mx-auto">
+            Get the latest deals, product updates, and exclusive offers delivered straight to your inbox.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-2 rounded-md border-0 focus:ring-2 focus:ring-accent focus:outline-none text-gray-900"
+            />
+            <Button className="bg-accent hover:bg-accent/90">
+              Subscribe
+            </Button>
+          </div>
+</div>
       </div>
     </div>
   );
