@@ -33,21 +33,7 @@ function App() {
     };
   }, []);
 
-  return (
-  const [showQuickView, setShowQuickView] = useState(false);
-  const [quickViewProductId, setQuickViewProductId] = useState(null);
-
-  const openQuickView = (productId) => {
-    setQuickViewProductId(productId);
-    setShowQuickView(true);
-  };
-
-  const closeQuickView = () => {
-    setShowQuickView(false);
-    setQuickViewProductId(null);
-  };
-
-  return (
+return (
 <CartProvider>
       <div className="min-h-screen bg-background">
         <Layout>

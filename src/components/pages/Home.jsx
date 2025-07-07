@@ -172,9 +172,9 @@ const Home = () => {
                     </p>
                   </motion.div>
                 ))}
-              </div>
-            </motion.div>
 </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -223,9 +223,8 @@ const Home = () => {
                         <div className="bg-white/20 rounded-lg p-3 text-center">
                           <div className="text-2xl font-bold">{timeLeft.minutes.toString().padStart(2, '0')}</div>
                           <div className="text-sm opacity-75">Minutes</div>
-                        </div>
+</div>
                         <div className="bg-white/20 rounded-lg p-3 text-center">
-<div className="bg-white/20 rounded-lg p-3 text-center">
                           <div className="text-2xl font-bold">{timeLeft.seconds.toString().padStart(2, '0')}</div>
                           <div className="text-sm opacity-75">Seconds</div>
                         </div>
@@ -342,8 +341,6 @@ Shop by Category
               Check out the latest additions to our collection
             </p>
           </div>
-          
-          <div className="px-6">
 <div className="px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {newProducts && newProducts.map((product, index) => (
@@ -367,9 +364,8 @@ Shop by Category
                   </p>
                 </motion.div>
               ))}
-            </div>
-          </div>
 </div>
+          </div>
         </section>
         </div>
 
@@ -390,10 +386,9 @@ Shop by Category
               />
               <Button className="bg-accent hover:bg-accent/90">
                 Subscribe
-              </Button>
+</Button>
             </div>
-</div>
-        </section>
+          </div>
         </div>
       </div>
     </div>
