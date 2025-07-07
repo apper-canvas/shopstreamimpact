@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { motion } from "framer-motion";
+import ApperIcon from "@/components/ApperIcon";
 import ProductGrid from "@/components/organisms/ProductGrid";
+import Button from "@/components/atoms/Button";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import Category from "@/components/pages/Category";
 import ProductCarousel from "@/components/molecules/ProductCarousel";
 import CategoryCard from "@/components/molecules/CategoryCard";
-import ProductCard from "@/components/molecules/ProductCard";
-import Button from "@/components/atoms/Button";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import ApperIcon from "@/components/ApperIcon";
 import { productService } from "@/services/api/productService";
 
 const Home = () => {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [featured, setFeatured] = useState([]);
+  const [deals, setDeals] = useState([]);
+  const [newArrivals, setNewArrivals] = useState([]);
+  const [bestSellers, setBestSellers] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
   const [dealsProducts, setDealsProducts] = useState([]);
   const [newProducts, setNewProducts] = useState([]);
   const [dealOfTheDay, setDealOfTheDay] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const [timeLeft, setTimeLeft] = useState({
     hours: 23,
     minutes: 59,
@@ -60,17 +64,18 @@ const Home = () => {
       setCategories(categoriesData.filter(cat => cat.featured));
       setDealsProducts(deals.slice(0, 8));
       setNewProducts(newArrivals.slice(0, 4));
-      
-      // Set deal of the day (highest discount product)
-      const bestDeal = deals.reduce((best, current) => {
-        const currentDiscount = current.originalPrice ? 
-          ((current.originalPrice - current.price) / current.originalPrice) * 100 : 0;
-        const bestDiscount = best.originalPrice ? 
-          ((best.originalPrice - best.price) / best.originalPrice) * 100 : 0;
-        return currentDiscount > bestDiscount ? current : best;
-      }, deals[0]);
-      
-      setDealOfTheDay(bestDeal);
+// Set deal of the day (highest discount product)
+      if (deals && deals.length > 0) {
+        const bestDeal = deals.reduce((best, current) => {
+          const currentDiscount = current.originalPrice ? 
+            ((current.originalPrice - current.price) / current.originalPrice) * 100 : 0;
+          const bestDiscount = best.originalPrice ? 
+            ((best.originalPrice - best.price) / best.originalPrice) * 100 : 0;
+          return currentDiscount > bestDiscount ? current : best;
+        }, deals[0]);
+        
+        setDealOfTheDay(bestDeal);
+      }
     } catch (err) {
       setError('Failed to load homepage data. Please try again.');
     } finally {
@@ -144,9 +149,9 @@ const Home = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
-            >
+>
               <div className="grid grid-cols-2 gap-4">
-                {featuredProducts.slice(0, 4).map((product, index) => (
+                {featuredProducts && featuredProducts.slice(0, 4).map((product, index) => (
                   <motion.div
                     key={product.Id}
                     initial={{ opacity: 0, y: 20 }}
@@ -155,7 +160,7 @@ const Home = () => {
                     className="bg-white rounded-lg p-4 shadow-lg hover:shadow-xl transition-shadow"
                   >
                     <img
-                      src={product.images[0]}
+                      src={product.images?.[0] || '/placeholder.jpg'}
                       alt={product.title}
                       className="w-full h-24 object-cover rounded-md mb-2"
                     />
@@ -169,14 +174,13 @@ const Home = () => {
                 ))}
               </div>
             </motion.div>
-          </div>
+</div>
         </div>
       </section>
 
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Deal of the Day */}
-        {dealOfTheDay && (
-          <section className="py-16">
+      {/* Deal of the Day */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="py-16">
             <div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-8 text-white relative overflow-hidden">
               <div className="absolute -top-16 -right-16 w-32 h-32 bg-white/10 rounded-full"></div>
               <div className="absolute -bottom-8 -left-8 w-24 h-24 bg-white/5 rounded-full"></div>
@@ -187,19 +191,19 @@ const Home = () => {
                   <p className="text-xl opacity-90">Limited time offer - Don't miss out!</p>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                   <div className="text-center lg:text-left">
                     <h3 className="text-2xl font-bold mb-4 line-clamp-2">
-                      {dealOfTheDay.title}
+                      {dealOfTheDay?.title || 'Special Deal'}
                     </h3>
                     
                     <div className="flex items-center justify-center lg:justify-start gap-4 mb-6">
                       <span className="text-4xl font-bold">
-                        ${dealOfTheDay.price}
+                        ${dealOfTheDay?.price || '0.00'}
                       </span>
-                      {dealOfTheDay.originalPrice && (
-                        <div className="text-center">
-                          <span className="text-xl line-through opacity-75 block">
+                      {dealOfTheDay?.originalPrice && (
+                        <div className="flex flex-col items-center">
+                          <span className="text-lg line-through text-white/70">
                             ${dealOfTheDay.originalPrice}
                           </span>
                           <span className="text-sm bg-white/20 px-2 py-1 rounded">
@@ -221,13 +225,14 @@ const Home = () => {
                           <div className="text-sm opacity-75">Minutes</div>
                         </div>
                         <div className="bg-white/20 rounded-lg p-3 text-center">
+<div className="bg-white/20 rounded-lg p-3 text-center">
                           <div className="text-2xl font-bold">{timeLeft.seconds.toString().padStart(2, '0')}</div>
                           <div className="text-sm opacity-75">Seconds</div>
                         </div>
                       </div>
                     </div>
 
-                    <Link to={`/product/${dealOfTheDay.Id}`}>
+                    <Link to={`/product/${dealOfTheDay?.id || ''}`}>
                       <Button size="lg" className="bg-white text-primary hover:bg-gray-100 font-semibold">
                         Shop Now - Limited Stock!
                         <ApperIcon name="ArrowRight" size={20} className="ml-2" />
@@ -235,11 +240,11 @@ const Home = () => {
                     </Link>
                   </div>
 
-                  <div className="relative">
+<div className="relative">
                     <div className="bg-white/10 rounded-2xl p-6 backdrop-blur-sm">
                       <img
-                        src={dealOfTheDay.images[0]}
-                        alt={dealOfTheDay.title}
+                        src={dealOfTheDay?.images?.[0] || '/placeholder.jpg'}
+                        alt={dealOfTheDay?.title || 'Deal of the Day'}
                         className="w-full h-64 object-cover rounded-lg shadow-lg"
                       />
                     </div>
@@ -248,13 +253,14 @@ const Home = () => {
               </div>
             </div>
           </section>
-        )}
+        </div>
 
         {/* Categories Section */}
-        <section className="py-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Shop by Category
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <section className="py-16">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+Shop by Category
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
               Explore our wide range of categories to find exactly what you're looking for
@@ -272,11 +278,13 @@ const Home = () => {
                 <CategoryCard category={category} />
               </motion.div>
             ))}
-          </div>
+</div>
         </section>
+        </div>
 
-{/* Featured Products Carousel */}
-        <section className="py-16 bg-white rounded-lg shadow-sm">
+        {/* Featured Products Carousel */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <section className="py-16 bg-white rounded-lg shadow-sm">
           <div className="px-6">
             <ProductCarousel 
               products={featuredProducts}
@@ -299,11 +307,13 @@ const Home = () => {
                 <ApperIcon name="ArrowRight" size={20} className="ml-2" />
               </Button>
             </Link>
-          </div>
+</div>
         </section>
+        </div>
 
-{/* Special Deals Carousel */}
-        <section className="py-16">
+        {/* Special Deals Carousel */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <section className="py-16">
           <ProductCarousel 
             products={dealsProducts}
             title="🏷️ Special Deals"
@@ -317,11 +327,13 @@ const Home = () => {
             <p className="text-gray-600 max-w-2xl mx-auto">
               Don't miss out on these limited-time offers
             </p>
-          </div>
+</div>
         </section>
+        </div>
 
         {/* New Arrivals */}
-        <section className="py-16 bg-white rounded-lg shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <section className="py-16 bg-white rounded-lg shadow-sm">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               New Arrivals
@@ -332,23 +344,37 @@ const Home = () => {
           </div>
           
           <div className="px-6">
+<div className="px-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {newProducts.map((product, index) => (
+              {newProducts && newProducts.map((product, index) => (
                 <motion.div
                   key={product.Id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
+                  className="bg-white rounded-lg p-4 shadow-lg hover:shadow-xl transition-shadow"
                 >
-                  <ProductCard product={product} />
+                  <img
+                    src={product.images?.[0] || '/placeholder.jpg'}
+                    alt={product.title}
+                    className="w-full h-48 object-cover rounded-md mb-3"
+                  />
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                    {product.title}
+                  </h3>
+                  <p className="text-xl font-bold text-primary">
+                    ${product.price}
+                  </p>
                 </motion.div>
               ))}
             </div>
           </div>
+</div>
         </section>
+        </div>
 
         {/* Newsletter Section */}
-        <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-gradient-to-r from-secondary to-secondary/90 rounded-lg p-8 text-white text-center">
             <h2 className="text-3xl font-bold mb-4">
               Stay Updated with Our Newsletter
@@ -366,8 +392,9 @@ const Home = () => {
                 Subscribe
               </Button>
             </div>
-          </div>
+</div>
         </section>
+        </div>
       </div>
     </div>
   );

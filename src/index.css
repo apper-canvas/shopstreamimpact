@@ -277,9 +277,14 @@ img {
 @media (min-width: 641px) {
   .text-responsive-lg {
     font-size: 1.875rem;
-  }
+}
   
   .text-responsive-xl {
     font-size: 2.25rem;
   }
+}
+
+/* Modal z-index */
+.z-modal {
+  z-index: 10000;
 }

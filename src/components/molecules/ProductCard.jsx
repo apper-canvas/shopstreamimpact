@@ -7,14 +7,21 @@ import StarRating from '@/components/atoms/StarRating';
 import ApperIcon from '@/components/ApperIcon';
 import { useCart } from '@/hooks/useCart';
 import { formatPrice, formatDiscount } from '@/utils/currency';
-
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, onQuickView }) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product);
+  };
+
+  const handleQuickView = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onQuickView) {
+      onQuickView(product.Id);
+    }
   };
 
   const hasDiscount = product.originalPrice && product.originalPrice > product.price;
@@ -25,12 +32,13 @@ const ProductCard = ({ product }) => {
       className="bg-white rounded-lg shadow-product hover:shadow-lg transition-all duration-300 overflow-hidden group"
       whileHover={{ y: -4 }}
     >
-      <Link to={`/product/${product.Id}`} className="block">
+<Link to={`/product/${product.Id}`} className="block">
         <div className="relative overflow-hidden">
           <img
             src={product.images[0]}
             alt={product.title}
-            className="w-full h-48 sm:h-56 object-cover transition-transform duration-300 group-hover:scale-105"
+            className="w-full h-48 sm:h-56 object-cover transition-transform duration-300 group-hover:scale-105 cursor-pointer"
+            onClick={handleQuickView}
           />
           <div className="absolute top-2 left-2 flex flex-col gap-1">
             {product.onSale && (
@@ -52,11 +60,13 @@ const ProductCard = ({ product }) => {
           )}
         </div>
         
-        <div className="p-4">
-          <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+<div className="p-4">
+          <h3 
+            className="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary transition-colors cursor-pointer"
+            onClick={handleQuickView}
+          >
             {product.title}
           </h3>
-          
           <div className="flex items-center gap-2 mb-2">
             <StarRating rating={product.rating} size={14} />
             <span className="text-sm text-gray-500">({product.reviews})</span>
